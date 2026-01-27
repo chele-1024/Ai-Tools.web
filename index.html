@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chelle AI - Koleksi Tool Kecerdasan Buatan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a0dad;
+            --secondary: #00d4ff;
+            --dark-bg: #0a0a0f;
+            --dark-card: #12121f;
+            --darker-card: #0c0c17;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0d0;
+            --accent: #ff6b9d;
+            --success: #00ff9d;
+            --border: #2a2a3e;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: var(--gradient);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-primary);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            width: 180px;
+            outline: none;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--dark-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--darker-card);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 70px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, rgba(0, 212, 255, 0.05) 50%, transparent 70%);
+            z-index: -1;
+        }
+
+        .hero h2 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--text-primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        /* Categories */
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .category {
+            background-color: var(--dark-card);
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .category:hover {
+            background-color: var(--darker-card);
+            transform: translateY(-3px);
+        }
+
+        .category.active {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .tool-card {
+            background-color: var(--dark-card);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+        }
+
+        .tool-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .tool-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .tool-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tool-tag {
+            background-color: rgba(138, 43, 226, 0.15);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tool-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tool-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .tool-price.free {
+            color: var(--success);
+        }
+
+        .tool-price.paid {
+            color: var(--accent);
+        }
+
+        /* Featured Section */
+        .featured {
+            background-color: var(--darker-card);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .featured-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .featured-text {
+            flex: 1;
+        }
+
+        .featured-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .featured-image img {
+            max-width: 100%;
+            border-radius: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-card);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--text-primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .featured-content {
+                flex-direction: column;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Chelle AI</h1>
+                        <p>Koleksi Tool Kecerdasan Buatan</p>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">Beranda</a></li>
+                        <li><a href="#tools">AI Tools</a></li>
+                        <li><a href="#categories">Kategori</a></li>
+                        <li><a href="#featured">Ulasan</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Cari AI Tool...">
+                    </div>
+                    <a href="login.html" class="btn btn-secondary"><i class="fas fa-user"></i> Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Temukan Kekuatan AI untuk Semua Kebutuhan Anda</h2>
+            <p>Jelajahi koleksi lengkap alat kecerdasan buatan terbaik untuk meningkatkan produktivitas, kreativitas, dan bisnis Anda.</p>
+            
+            <div class="hero-btns">
+                <a href="#tools" class="btn btn-primary"><i class="fas fa-rocket"></i> Jelajahi Tools</a>
+                <a href="#featured" class="btn btn-secondary"><i class="fas fa-star"></i> Tools Terpopuler</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Categories -->
+        <section id="categories">
+            <h2 class="section-title">Kategori AI Tools</h2>
+            <div class="categories">
+                <div class="category active">Semua</div>
+                <div class="category">Generatif AI</div>
+                <div class="category">Penulisan</div>
+                <div class="category">Gambar & Desain</div>
+                <div class="category">Video & Audio</div>
+                <div class="category">Koding</div>
+                <div class="category">Marketing</div>
+                <div class="category">Analisis Data</div>
+            </div>
+        </section>
+
+        <!-- AI Tools Grid -->
+        <section id="tools">
+            <h2 class="section-title">AI Tools Terpopuler</h2>
+            <div class="tools-grid">
+                <!-- Tool 1 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>ChatGPT</h3>
+                    <p>Asisten AI cerdas untuk percakapan, penulisan kreatif, pemecahan masalah, dan banyak lagi.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Generatif AI</span>
+                        <span class="tool-tag">Penulisan</span>
+                        <span class="tool-tag">Koding</span>
+                    </div>
+                    <div class="tool-actions">
+                        <span class="tool-price free">Gratis</span>
+                        <a href="chatgpt.html" class="btn btn-primary">Coba Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Tool 2 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Midjourney</h3>
+                    <p>Buat gambar menakjubkan dari deskripsi teks dengan kecerdasan buatan generatif.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Gambar</span>
+                        <span class="tool-tag">Desain</span>
+                        <span class="tool-tag">Kreatif</span>
+                    </div>
+                    <div class="tool-actions">
+                        <span class="tool-price paid">Berlangganan</span>
+                        <a href="midjourney.html" class="btn btn-primary">Coba Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Tool 3 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>GitHub Copilot</h3>
+                    <p>Asisten AI untuk pengembang yang membantu menulis kode lebih cepat dan efisien.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Koding</span>
+                        <span class="tool-tag">Pengembang</span>
+                    </div>
+                    <div class="tool-actions">
+                        <span class="tool-price paid">Berlangganan</span>
+                        <a href="copilot.html" class="btn btn-primary">Coba Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Tool 4 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Runway ML</h3>
+                    <p>Alat editing video dengan AI untuk efek khusus, penghapusan objek, dan pembuatan konten.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Video</span>
+                        <span class="tool-tag">Editing</span>
+                    </div>
+                    <div class="tool-actions">
+                        <span class="tool-price free">Gratis</span>
+                        <button class="btn btn-primary">Coba Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Tool 5 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Jasper AI</h3>
+                    <p>Asisten penulisan AI untuk konten marketing, iklan, blog, dan copywriting lainnya.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Marketing</span>
+                        <span class="tool-tag">Penulisan</span>
+                    </div>
+                    <div class="tool-actions">
+                        <span class="tool-price paid">Berlangganan</span>
+                        <button class="btn btn-primary">Coba Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Tool 6 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Descript</h3>
+                    <p>Editor audio dan video yang menggunakan AI untuk editing berbasis transkripsi.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Audio</span>
+                        <span class="tool-tag">Podcast</span>
+                    </div>
+                    <div class="tool-actions">
+                        <span class="tool-price free">Gratis</span>
+                        <button class="btn btn-primary">Coba Sekarang</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Tool -->
+        <section class="featured" id="featured">
+            <div class="featured-content">
+                <div class="featured-text">
+                    <h2 class="section-title">AI Tool Pilihan Minggu Ini</h2>
+                    <h3>DALL-E 3</h3>
+                    <p>Model generasi gambar terbaru dari OpenAI yang menghasilkan gambar realistis dari deskripsi tekstual. Dengan peningkatan pada detail, komposisi, dan pemahaman konteks yang lebih baik.</p>
+                    <div class="tool-tags" style="margin: 20px 0;">
+                        <span class="tool-tag">AI Generatif</span>
+                        <span class="tool-tag">Gambar</span>
+                        <span class="tool-tag">Desain</span>
+                    </div>
+                    <a href="dalle.html" class="btn btn-primary" style="margin-top: 20px;"><i class="fas fa-bolt"></i> Coba DALL-E 3</a>
+                </div>
+                <div class="featured-image">
+                    <div style="background: linear-gradient(135deg, #8a2be2, #00d4ff); height: 250px; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-image" style="font-size: 6rem; color: white; opacity: 0.8;"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>AI Hub</h4>
+                    <p>Platform terbaik untuk menemukan dan mengeksplorasi alat kecerdasan buatan terbaru dan terpopuler.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 15px;">
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Kategori</h4>
+                    <ul>
+                        <li><a href="#categories">Generatif AI</a></li>
+                        <li><a href="#categories">Penulisan & Konten</a></li>
+                        <li><a href="#categories">Gambar & Desain</a></li>
+                        <li><a href="#categories">Video & Audio</a></li>
+                        <li><a href="#categories">Koding & Teknologi</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Kontak</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Berlangganan</h4>
+                    <p>Dapatkan update tentang AI tools terbaru langsung ke email Anda.</p>
+                    <div class="search-box" style="margin-top: 15px; width: 100%;">
+                        <input type="text" placeholder="Email Anda">
+                        <button class="btn btn-primary" style="padding: 8px 15px;"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AI Hub. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart" style="color: var(--accent);"></i> untuk komunitas AI.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Interaktivitas sederhana
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter berdasarkan kategori
+            const categories = document.querySelectorAll('.category');
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            categories.forEach(category => {
+                category.addEventListener('click', function() {
+                    // Hapus kelas active dari semua kategori
+                    categories.forEach(cat => cat.classList.remove('active'));
+                    // Tambahkan kelas active ke kategori yang diklik
+                    this.classList.add('active');
+                    
+                    const categoryName = this.textContent.trim();
+                    
+                    // Filter tool cards
+                    toolCards.forEach(card => {
+                        if (categoryName === 'Semua') {
+                            card.style.display = 'block';
+                        } else {
+                            const tags = Array.from(card.querySelectorAll('.tool-tag')).map(tag => tag.textContent);
+                            if (tags.includes(categoryName)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // Efek hover pada tombol
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Simulasi pencarian
+            const searchInput = document.querySelector('.search-box input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                toolCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Animasi saat scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Terapkan animasi pada tool cards
+            toolCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Chelle AI </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a0dad;
+            --secondary: #00d4ff;
+            --dark-bg: #0a0a0f;
+            --dark-card: #12121f;
+            --darker-card: #0c0c17;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0d0;
+            --accent: #ff6b9d;
+            --success: #00ff9d;
+            --border: #2a2a3e;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: var(--gradient);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-primary);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--dark-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--darker-card);
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            min-height: calc(100vh - 140px);
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-wrapper {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--dark-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+        }
+
+        .login-left {
+            flex: 1;
+            background: var(--gradient);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .login-left::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .login-left h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-left p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-features {
+            list-style: none;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-features li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .login-features i {
+            font-size: 1.3rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Login Form */
+        .login-right {
+            flex: 1;
+            padding: 60px 50px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+        }
+
+        .form-container {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background-color: var(--darker-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .remember-me label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: var(--text-secondary);
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border);
+        }
+
+        .divider span {
+            padding: 0 15px;
+            font-size: 0.9rem;
+        }
+
+        .social-login {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .social-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background-color: var(--darker-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            background-color: rgba(138, 43, 226, 0.1);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .social-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .social-btn span {
+            font-size: 0.8rem;
+        }
+
+        .social-btn.google i {
+            color: #DB4437;
+        }
+
+        .social-btn.github i {
+            color: #ffffff;
+        }
+
+        .social-btn.microsoft i {
+            color: #00A4EF;
+        }
+
+        .register-link {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 30px;
+        }
+
+        .register-link a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: color 0.3s;
+        }
+
+        .register-link a:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-card);
+            padding: 40px 0 20px;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--text-primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Toggle Form (Register/Login) */
+        .form-toggle {
+            display: none;
+        }
+
+        #register-form {
+            display: none;
+        }
+
+        .form-toggle:checked ~ .form-container #login-form {
+            display: none;
+        }
+
+        .form-toggle:checked ~ .form-container #register-form {
+            display: block;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--dark-card);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--border);
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--text-primary);
+        }
+
+        .modal h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .login-wrapper {
+                flex-direction: column;
+                max-width: 600px;
+            }
+            
+            .login-left {
+                padding: 40px 30px;
+            }
+            
+            .social-login {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .login-right {
+                padding: 40px 30px;
+            }
+            
+            .social-login {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-left h2 {
+                font-size: 2rem;
+            }
+            
+            .login-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="logo-text">
+                            <h1>AI Hub</h1>
+                            <p>Koleksi Tool Kecerdasan Buatan</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="index.html#tools">AI Tools</a></li>
+                        <li><a href="index.html#categories">Kategori</a></li>
+                        <li><a href="index.html#featured">Ulasan</a></li>
+                        <li><a href="login.html" class="active">Login</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Page -->
+    <section class="login-container">
+        <div class="login-wrapper">
+            <!-- Left Side - Info -->
+            <div class="login-left">
+                <h2>Bergabung dengan Komunitas AI</h2>
+                <p>Akses semua tool AI terbaik dalam satu platform. Simpan favorit Anda, dapatkan rekomendasi personal, dan jelajahi dunia kecerdasan buatan.</p>
+                
+                <ul class="login-features">
+                    <li>
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <strong>Akses ke 100+ AI Tools</strong>
+                            <p>Eksplorasi koleksi lengkap alat kecerdasan buatan</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-bookmark"></i>
+                        <div>
+                            <strong>Simpan Favorit Anda</strong>
+                            <p>Bookmark tool favorit untuk akses cepat</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-bell"></i>
+                        <div>
+                            <strong>Notifikasi Update</strong>
+                            <p>Dapatkan pemberitahuan tentang tool AI baru</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <strong>Komunitas Aktif</strong>
+                            <p>Bergabung dengan diskusi dan berbagi pengalaman</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Right Side - Form -->
+            <div class="login-right">
+                <!-- Toggle Checkbox (hidden) -->
+                <input type="checkbox" id="form-toggle" class="form-toggle">
+                
+                <div class="login-header">
+                    <h2 id="form-title">Masuk ke Akun Anda</h2>
+                    <p id="form-subtitle">Masuk untuk mengakses semua fitur AI Hub</p>
+                </div>
+                
+                <div class="form-container">
+                    <!-- Login Form -->
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="login-email" class="form-control" placeholder="nama@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="login-password" class="form-control" placeholder="Masukkan password" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-options">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember-me">
+                                <label for="remember-me">Ingat saya</label>
+                            </div>
+                            <a href="#" id="forgot-password-link" class="forgot-password">Lupa password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary login-button">
+                            <i class="fas fa-sign-in-alt"></i> Masuk
+                        </button>
+                    </form>
+                    
+                    <!-- Register Form -->
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="register-name">Nama Lengkap</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="register-name" class="form-control" placeholder="Nama lengkap Anda" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="register-email" class="form-control" placeholder="nama@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="register-password" class="form-control" placeholder="Minimal 8 karakter" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-confirm">Konfirmasi Password</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="register-confirm" class="form-control" placeholder="Ulangi password" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-options">
+                            <div class="remember-me">
+                                <input type="checkbox" id="terms-agreement" required>
+                                <label for="terms-agreement">Saya setuju dengan <a href="#" id="terms-link" style="color: var(--secondary);">Syarat & Ketentuan</a></label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary login-button">
+                            <i class="fas fa-user-plus"></i> Daftar
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="divider">
+                    <span>Atau lanjutkan dengan</span>
+                </div>
+                
+                <div class="social-login">
+                    <a href="#" class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        <span>Google</span>
+                    </a>
+                    <a href="#" class="social-btn github">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="#" class="social-btn microsoft">
+                        <i class="fab fa-microsoft"></i>
+                        <span>Microsoft</span>
+                    </a>
+                </div>
+                
+                <div class="register-link">
+                    <span id="toggle-text">Belum punya akun?</span>
+                    <label for="form-toggle" id="toggle-link" style="color: var(--secondary); text-decoration: none; font-weight: 600; margin-left: 5px; cursor: pointer;">
+                        Daftar sekarang
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-forgot-modal">&times;</button>
+            <h3>Reset Password</h3>
+            <p>Masukkan email yang terdaftar untuk menerima link reset password.</p>
+            
+            <div class="form-group">
+                <label for="reset-email">Email</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="reset-email" class="form-control" placeholder="nama@email.com">
+                </div>
+            </div>
+            
+            <button id="send-reset-link" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                <i class="fas fa-paper-plane"></i> Kirim Link Reset
+            </button>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div id="terms-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-terms-modal">&times;</button>
+            <h3>Syarat & Ketentuan</h3>
+            <p>Dengan membuat akun di AI Hub, Anda menyetujui ketentuan berikut:</p>
+            
+            <div style="max-height: 300px; overflow-y: auto; padding: 10px; background-color: var(--darker-card); border-radius: 8px; margin: 20px 0;">
+                <h4>1. Penggunaan Layanan</h4>
+                <p>Anda setuju untuk menggunakan AI Hub hanya untuk tujuan yang sah dan sesuai dengan hukum yang berlaku.</p>
+                
+                <h4>2. Akun Pengguna</h4>
+                <p>Anda bertanggung jawab atas keamanan akun dan password Anda. Segala aktivitas yang terjadi di bawah akun Anda adalah tanggung jawab Anda.</p>
+                
+                <h4>3. Konten</h4>
+                <p>AI Hub menyediakan informasi tentang tool AI dari berbagai sumber. Kami tidak bertanggung jawab atas akurasi informasi dari pihak ketiga.</p>
+                
+                <h4>4. Privasi</h4>
+                <p>Data pribadi Anda akan dilindungi sesuai dengan Kebijakan Privasi kami.</p>
+                
+                <h4>5. Perubahan Ketentuan</h4>
+                <p>Kami berhak mengubah syarat dan ketentuan ini kapan saja. Perubahan akan diberitahukan melalui email atau notifikasi di platform.</p>
+            </div>
+            
+            <button id="accept-terms" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                <i class="fas fa-check"></i> Saya Setuju
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-success-modal">&times;</button>
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 80px; height: 80px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <i class="fas fa-check" style="font-size: 2.5rem; color: white;"></i>
+                </div>
+                <h3 id="success-title">Berhasil!</h3>
+                <p id="success-message">Operasi berhasil dilakukan.</p>
+                <button id="close-success-btn" class="btn btn-primary" style="margin-top: 20px;">
+                    <i class="fas fa-check"></i> Oke
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>AI Hub</h4>
+                    <p>Platform terbaik untuk menemukan dan mengeksplorasi alat kecerdasan buatan terbaru dan terpopuler.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 15px;">
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Tool Terpopuler</h4>
+                    <ul>
+                        <li><a href="chatgpt.html">ChatGPT</a></li>
+                        <li><a href="midjourney.html">Midjourney</a></li>
+                        <li><a href="copilot.html">GitHub Copilot</a></li>
+                        <li><a href="dalle.html">DALL-E 3</a></li>
+                        <li><a href="#">Jasper AI</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Kontak</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Bantuan</h4>
+                    <ul>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Hubungi Kami</a></li>
+                        <li><a href="#">Status Layanan</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AI Hub. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart" style="color: var(--accent);"></i> untuk komunitas AI.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle antara Login dan Register
+            const formToggle = document.getElementById('form-toggle');
+            const formTitle = document.getElementById('form-title');
+            const formSubtitle = document.getElementById('form-subtitle');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleLink = document.getElementById('toggle-link');
+            
+            formToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    formTitle.textContent = 'Buat Akun Baru';
+                    formSubtitle.textContent = 'Daftar untuk mengakses semua fitur AI Hub';
+                    toggleText.textContent = 'Sudah punya akun?';
+                    toggleLink.textContent = 'Masuk sekarang';
+                } else {
+                    formTitle.textContent = 'Masuk ke Akun Anda';
+                    formSubtitle.textContent = 'Masuk untuk mengakses semua fitur AI Hub';
+                    toggleText.textContent = 'Belum punya akun?';
+                    toggleLink.textContent = 'Daftar sekarang';
+                }
+            });
+            
+            // Modal Elements
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const forgotPasswordModal = document.getElementById('forgot-password-modal');
+            const closeForgotModal = document.getElementById('close-forgot-modal');
+            
+            const termsLink = document.getElementById('terms-link');
+            const termsModal = document.getElementById('terms-modal');
+            const closeTermsModal = document.getElementById('close-terms-modal');
+            
+            const successModal = document.getElementById('success-modal');
+            const closeSuccessModal = document.getElementById('close-success-modal');
+            const closeSuccessBtn = document.getElementById('close-success-btn');
+            
+            // Show Forgot Password Modal
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                forgotPasswordModal.style.display = 'flex';
+            });
+            
+            // Show Terms Modal
+            termsLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                termsModal.style.display = 'flex';
+            });
+            
+            // Close Modals
+            closeForgotModal.addEventListener('click', function() {
+                forgotPasswordModal.style.display = 'none';
+            });
+            
+            closeTermsModal.addEventListener('click', function() {
+                termsModal.style.display = 'none';
+            });
+            
+            closeSuccessModal.addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
+            
+            closeSuccessBtn.addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === forgotPasswordModal) {
+                    forgotPasswordModal.style.display = 'none';
+                }
+                if (e.target === termsModal) {
+                    termsModal.style.display = 'none';
+                }
+                if (e.target === successModal) {
+                    successModal.style.display = 'none';
+                }
+            });
+            
+            // Accept Terms Button
+            const acceptTermsBtn = document.getElementById('accept-terms');
+            acceptTermsBtn.addEventListener('click', function() {
+                document.getElementById('terms-agreement').checked = true;
+                termsModal.style.display = 'none';
+                showSuccess('Syarat & Ketentuan diterima', 'Anda telah menyetujui Syarat & Ketentuan AI Hub.');
+            });
+            
+            // Send Reset Link Button
+            const sendResetLinkBtn = document.getElementById('send-reset-link');
+            sendResetLinkBtn.addEventListener('click', function() {
+                const resetEmail = document.getElementById('reset-email').value;
+                
+                if (!resetEmail || !isValidEmail(resetEmail)) {
+                    alert('Harap masukkan email yang valid.');
+                    return;
+                }
+                
+                forgotPasswordModal.style.display = 'none';
+                showSuccess('Link Reset Dikirim', 'Link reset password telah dikirim ke ' + resetEmail + '. Silakan periksa email Anda.');
+                document.getElementById('reset-email').value = '';
+            });
+            
+            // Form Submission
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (!email || !password) {
+                    alert('Harap isi semua field.');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    alert('Harap masukkan email yang valid.');
+                    return;
+                }
+                
+                // Simulasi loading
+                const submitBtn = this.querySelector('.login-button');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+                submitBtn.disabled = true;
+                
+                // Simulasi proses login selama 1 detik, lalu redirect ke halaman utama
+                setTimeout(function() {
+                    // Redirect ke halaman utama (index.html)
+                    window.location.href = 'index.html';
+                }, 1000);
+            });
+            
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm').value;
+                const termsAgreed = document.getElementById('terms-agreement').checked;
+                
+                // Validasi
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Harap isi semua field.');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    alert('Harap masukkan email yang valid.');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    alert('Password minimal 8 karakter.');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('Password dan konfirmasi password tidak cocok.');
+                    return;
+                }
+                
+                if (!termsAgreed) {
+                    alert('Anda harus menyetujui Syarat & Ketentuan.');
+                    return;
+                }
+                
+                // Simulasi loading
+                const submitBtn = this.querySelector('.login-button');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+                submitBtn.disabled = true;
+                
+                // Simulasi proses pendaftaran selama 1.5 detik, lalu redirect ke halaman utama
+                setTimeout(function() {
+                    // Redirect ke halaman utama setelah pendaftaran
+                    window.location.href = 'index.html';
+                }, 1500);
+            });
+            
+            // Fungsi untuk validasi email
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            
+            // Fungsi untuk menampilkan modal success
+            function showSuccess(title, message) {
+                document.getElementById('success-title').textContent = title;
+                document.getElementById('success-message').textContent = message;
+                successModal.style.display = 'flex';
+            }
+            
+            // Efek hover pada tombol
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Efek hover pada social buttons
+            const socialButtons = document.querySelectorAll('.social-btn');
+            socialButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Validasi real-time untuk password pada register form
+            const registerPassword = document.getElementById('register-password');
+            const registerConfirm = document.getElementById('register-confirm');
+            
+            function validatePasswordMatch() {
+                if (registerPassword.value && registerConfirm.value) {
+                    if (registerPassword.value !== registerConfirm.value) {
+                        registerConfirm.style.borderColor = 'var(--accent)';
+                    } else {
+                        registerConfirm.style.borderColor = 'var(--success)';
+                    }
+                } else {
+                    registerConfirm.style.borderColor = 'var(--border)';
+                }
+            }
+            
+            registerPassword.addEventListener('input', validatePasswordMatch);
+            registerConfirm.addEventListener('input', validatePasswordMatch);
+        });
+    </script>
+</body>
+</html>
