@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DALL-E 3 - AI Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a0dad;
+            --secondary: #00d4ff;
+            --dark-bg: #0a0a0f;
+            --dark-card: #12121f;
+            --darker-card: #0c0c17;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0d0;
+            --accent: #ff6b9d;
+            --success: #00ff9d;
+            --border: #2a2a3e;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: var(--gradient);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-primary);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Search Box */
+        .search-box {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            width: 180px;
+            outline: none;
+        }
+
+        /* User Profile Styles */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--dark-card);
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-info:hover {
+            background-color: var(--darker-card);
+        }
+
+        .user-info span {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-dropdown i {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 0;
+            min-width: 180px;
+            margin-top: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+            color: var(--text-primary);
+        }
+
+        .dropdown-menu a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border);
+            margin: 8px 0;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--dark-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--darker-card);
+        }
+
+        /* Tool Detail Page */
+        .tool-detail {
+            padding: 80px 0 50px;
+        }
+
+        .tool-header {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: flex-start;
+        }
+
+        .tool-icon-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            background: var(--gradient);
+            flex-shrink: 0;
+        }
+
+        .tool-info {
+            flex: 1;
+        }
+
+        .tool-title {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tool-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .tool-actions-detail {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tool-meta {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .meta-value.free {
+            color: var(--success);
+        }
+
+        .meta-value.paid {
+            color: var(--accent);
+        }
+
+        .tool-tags-detail {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .tool-tag-detail {
+            background-color: rgba(138, 43, 226, 0.2);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            background-color: var(--dark-card);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--border);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-item {
+            background-color: var(--darker-card);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .use-case {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: rgba(0, 212, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .use-case i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            background-color: var(--darker-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-image {
+            height: 200px;
+            background: linear-gradient(135deg, #8a2be2, #00d4ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .gallery-caption {
+            padding: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background-color: rgba(138, 43, 226, 0.1);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background-color: rgba(0, 212, 255, 0.05);
+        }
+
+        .comparison-table .check {
+            color: var(--success);
+        }
+
+        .comparison-table .cross {
+            color: var(--accent);
+        }
+
+        /* Access Methods */
+        .access-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .access-card {
+            background-color: var(--darker-card);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .access-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .access-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .access-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .access-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 15px 0;
+            color: var(--accent);
+        }
+
+        .access-price.free {
+            color: var(--success);
+        }
+
+        /* External Link */
+        .external-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(0, 212, 255, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 60px;
+        }
+
+        .external-link-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+        }
+
+        .external-link-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .external-link-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: color 0.3s;
+        }
+
+        .back-button:hover {
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-card);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--text-primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tool-header {
+                flex-direction: column;
+            }
+            
+            .tool-icon-large {
+                align-self: center;
+            }
+            
+            .features-grid, .access-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .features-grid, .gallery-grid, .access-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-title {
+                font-size: 2.2rem;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .tool-actions-detail {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .search-box input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="logo-text">
+                            <h1>AI Hub</h1>
+                            <p>Koleksi Tool Kecerdasan Buatan</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="index.html#tools">AI Tools</a></li>
+                        <li><a href="index.html#categories">Kategori</a></li>
+                        <li><a href="index.html#featured">Ulasan</a></li>
+                        <li><a href="login.html" id="login-nav-link">Login</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Cari AI Tool...">
+                    </div>
+                    
+                    <!-- Tampilan sebelum login -->
+                    <a href="login.html" class="btn btn-secondary" id="login-btn"><i class="fas fa-user"></i> Login</a>
+                    
+                    <!-- Tampilan setelah login (awalnya tersembunyi) -->
+                    <div class="user-profile" id="user-profile" style="display: none;">
+                        <div class="user-info">
+                            <span id="username-display">User123</span>
+                            <div class="user-dropdown">
+                                <i class="fas fa-chevron-down"></i>
+                                <div class="dropdown-menu">
+                                    <a href="#"><i class="fas fa-user"></i> Profil Saya</a>
+                                    <a href="#"><i class="fas fa-bookmark"></i> Favorit</a>
+                                    <a href="#"><i class="fas fa-history"></i> Riwayat</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Detail -->
+    <section class="tool-detail">
+        <div class="container">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+            </a>
+            
+            <div class="tool-header">
+                <div class="tool-icon-large">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="tool-info">
+                    <h1 class="tool-title">DALL-E 3</h1>
+                    <p class="tool-subtitle">Model generasi gambar terbaru dari OpenAI dengan pemahaman konteks yang luar biasa dan integrasi ChatGPT</p>
+                    
+                    <div class="tool-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Harga</span>
+                            <span class="meta-value paid">Termasuk ChatGPT Plus</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Pengembang</span>
+                            <span class="meta-value">OpenAI</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Rating</span>
+                            <span class="meta-value">4.9/5</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Versi</span>
+                            <span class="meta-value">3.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-tags-detail">
+                        <span class="tool-tag-detail">AI Gambar</span>
+                        <span class="tool-tag-detail">Generatif</span>
+                        <span class="tool-tag-detail">OpenAI</span>
+                        <span class="tool-tag-detail">Realistis</span>
+                        <span class="tool-tag-detail">Integrasi ChatGPT</span>
+                        <span class="tool-tag-detail">Teks dalam Gambar</span>
+                    </div>
+                    
+                    <div class="tool-actions-detail">
+                        <a href="https://openai.com/dall-e-3" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i> Kunjungi Situs Resmi
+                        </a>
+                        <a href="https://chat.openai.com" target="_blank" class="btn btn-secondary">
+                            <i class="fas fa-robot"></i> Akses via ChatGPT
+                        </a>
+                        <a href="#access" class="btn btn-secondary">
+                            <i class="fas fa-key"></i> Cara Mengakses
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="content-section">
+                <h2 class="section-title">Deskripsi</h2>
+                <div class="section-content">
+                    <p>DALL-E 3 adalah model generasi gambar AI terbaru dari OpenAI yang menawarkan peningkatan signifikan dari versi sebelumnya. Dengan arsitektur yang lebih canggih dan pemahaman konteks yang jauh lebih baik, DALL-E 3 mampu mengubah deskripsi teks menjadi gambar-gambar yang menakjubkan dengan detail dan akurasi yang belum pernah ada sebelumnya.</p>
+                    <p style="margin-top: 15px;">Salah satu keunggulan utama DALL-E 3 adalah integrasi langsungnya dengan ChatGPT. Pengguna dapat berkolaborasi dengan ChatGPT untuk menyempurnakan prompt, menambahkan detail, dan mengoptimalkan deskripsi sebelum gambar dihasilkan. Fitur ini membuat proses kreatif menjadi lebih interaktif dan efektif.</p>
+                    <p style="margin-top: 15px;">DALL-E 3 juga unggul dalam menghasilkan teks yang terbaca dalam gambar - sebuah tantangan yang sulit bagi model AI generasi gambar lainnya. Ini membuka kemungkinan baru untuk membuat poster, meme, dan konten visual dengan teks yang terintegrasi dengan baik.</p>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="content-section">
+                <h2 class="section-title">Fitur Utama</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="feature-title">Pemahaman Konteks Unggul</h3>
+                        <p class="feature-desc">Memahami prompt kompleks dengan detail dan nuansa yang lebih baik dari versi sebelumnya, menghasilkan gambar yang lebih sesuai dengan deskripsi.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3 class="feature-title">Integrasi ChatGPT</h3>
+                        <p class="feature-desc">Bekerja sama dengan ChatGPT untuk menyempurnakan prompt sebelum menghasilkan gambar, memungkinkan iterasi kreatif yang lebih baik.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-text-height"></i>
+                        </div>
+                        <h3 class="feature-title">Teks dalam Gambar</h3>
+                        <p class="feature-desc">Mampu menghasilkan gambar dengan teks yang terbaca dengan baik dan sesuai konteks, sesuatu yang sulit bagi model AI lainnya.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="feature-title">Gaya Artistik Variatif</h3>
+                        <p class="feature-desc">Mendukung berbagai gaya seni, dari fotorealistik hingga ilustrasi kartun, anime, lukisan minyak, dan banyak lagi.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Resolusi Tinggi</h3>
+                        <p class="feature-desc">Menghasilkan gambar dengan resolusi 1024x1024 pixels yang tajam dan detail, ideal untuk berbagai penggunaan kreatif.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="feature-title">Keselamatan & Etika</h3>
+                        <p class="feature-desc">Dilengkapi dengan sistem keselamatan yang kuat untuk mencegah penyalahgunaan dan konten yang berbahaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison -->
+            <div class="content-section">
+                <h2 class="section-title">Perbandingan DALL-E 3 vs DALL-E 2</h2>
+                <div class="section-content">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Fitur</th>
+                                <th>DALL-E 2</th>
+                                <th>DALL-E 3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Kualitas Gambar</strong></td>
+                                <td><i class="fas fa-check check"></i> Baik (512x512)</td>
+                                <td><i class="fas fa-check check"></i> Sangat Baik (1024x1024)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pemahaman Prompt</strong></td>
+                                <td><i class="fas fa-check check"></i> Dasar</td>
+                                <td><i class="fas fa-check check"></i> Tingkat Lanjut</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Integrasi ChatGPT</strong></td>
+                                <td><i class="fas fa-times cross"></i> Tidak Tersedia</td>
+                                <td><i class="fas fa-check check"></i> Tersedia</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Generasi Teks dalam Gambar</strong></td>
+                                <td><i class="fas fa-times cross"></i> Terbatas</td>
+                                <td><i class="fas fa-check check"></i> Unggul</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Detail dan Koherensi</strong></td>
+                                <td><i class="fas fa-check check"></i> Menengah</td>
+                                <td><i class="fas fa-check check"></i> Tinggi</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pemahaman Hubungan Objek</strong></td>
+                                <td><i class="fas fa-check check"></i> Dasar</td>
+                                <td><i class="fas fa-check check"></i> Kompleks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Variasi Gaya Artistik</strong></td>
+                                <td><i class="fas fa-check check"></i> Sedang</td>
+                                <td><i class="fas fa-check check"></i> Luas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Gallery -->
+            <div class="content-section">
+                <h2 class="section-title">Contoh Hasil DALL-E 3</h2>
+                <div class="section-content">
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <div class="gallery-image" style="background: linear-gradient(135deg, #8a2be2, #00d4ff);">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="gallery-caption">
+                                <strong>Prompt:</strong> "Robot humanoid sedang melukis di studio seni, cahaya matahari sore masuk melalui jendela, fotorealistik, detail tinggi"
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-image" style="background: linear-gradient(135deg, #ff6b9d, #8a2be2);">
+                                <i class="fas fa-city"></i>
+                            </div>
+                            <div class="gallery-caption">
+                                <strong>Prompt:</strong> "Kota futuristik dengan arsitektur biophilic, tanaman merambat di gedung pencakar langit, siang hari dengan awan kumulus, gaya anime Studio Ghibli"
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-image" style="background: linear-gradient(135deg, #00d4ff, #00ff9d);">
+                                <i class="fas fa-dragon"></i>
+                            </div>
+                            <div class="gallery-caption">
+                                <strong>Prompt:</strong> "Naga kristal terbang di atas gunung es di planet alien dengan tiga matahari, fantasi epik, karya seni digital"
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-image" style="background: linear-gradient(135deg, #ff9d00, #ff6b9d);">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="gallery-caption">
+                                <strong>Prompt:</strong> "Buku ajaib yang terbuka dengan cahaya biru keluar membentuk portal ke galaksi, di atas meja kayu tua, ilustrasi detail"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Use Cases -->
+            <div class="content-section">
+                <h2 class="section-title">Contoh Penggunaan</h2>
+                <div class="section-content">
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Konten Media Sosial:</strong> Membuat ilustrasi unik untuk posting Instagram, Twitter, atau LinkedIn</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Desain Produk:</strong> Generasi konsep untuk kemasan produk, merchandise, atau mockup presentasi</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Edukasi:</strong> Membuat gambar edukatif dengan teks deskriptif untuk materi pembelajaran</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Entertainment:</strong> Konsep karakter untuk game, animasi, atau film indie</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Marketing:</strong> Visualisasi ide kreatif untuk kampanye iklan dan materi promosi</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Seni Personal:</strong> Ekspresi kreatif pribadi, ilustrasi buku, atau karya seni digital</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Access Methods -->
+            <div class="content-section" id="access">
+                <h2 class="section-title">Cara Mengakses DALL-E 3</h2>
+                <div class="section-content">
+                    <div class="access-methods">
+                        <div class="access-card">
+                            <div class="access-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="access-title">ChatGPT Plus</h3>
+                            <p>DALL-E 3 terintegrasi langsung dalam ChatGPT Plus. Pengguna dapat mengaksesnya melalui antarmuka chat dengan berlangganan ChatGPT Plus.</p>
+                            <div class="access-price paid">$20/bulan</div>
+                            <a href="https://chat.openai.com" target="_blank" class="btn btn-primary" style="width: 100%; text-align: center;">
+                                <i class="fas fa-external-link-alt"></i> ChatGPT Plus
+                            </a>
+                        </div>
+                        
+                        <div class="access-card">
+                            <div class="access-icon">
+                                <i class="fab fa-microsoft"></i>
+                            </div>
+                            <h3 class="access-title">Bing Image Creator</h3>
+                            <p>Microsoft mengintegrasikan DALL-E 3 ke dalam Bing Image Creator. Tersedia gratis dengan batasan tertentu melalui Microsoft Edge dan Bing.</p>
+                            <div class="access-price free">Gratis</div>
+                            <a href="https://www.bing.com/images/create" target="_blank" class="btn btn-secondary" style="width: 100%; text-align: center;">
+                                <i class="fab fa-microsoft"></i> Bing Image Creator
+                            </a>
+                        </div>
+                        
+                        <div class="access-card">
+                            <div class="access-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3 class="access-title">API OpenAI</h3>
+                            <p>Untuk pengembang, DALL-E 3 tersedia melalui OpenAI API. Memungkinkan integrasi ke aplikasi custom dengan biaya per penggunaan.</p>
+                            <div class="access-price paid">Pay-as-you-go</div>
+                            <a href="https://platform.openai.com/docs/guides/images" target="_blank" class="btn btn-secondary" style="width: 100%; text-align: center;">
+                                <i class="fas fa-code"></i> OpenAI API
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best Practices -->
+            <div class="content-section">
+                <h2 class="section-title">Tips & Best Practices</h2>
+                <div class="section-content">
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <i class="fas fa-lightbulb"></i>
+                            <span><strong>Gunakan Deskripsi Detail:</strong> Semakin detail prompt Anda, semakin baik hasilnya. Sertakan warna, gaya, pencahayaan, komposisi.</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-lightbulb"></i>
+                            <span><strong>Manfaatkan ChatGPT:</strong> Gunakan ChatGPT untuk menyempurnakan prompt sebelum mengirim ke DALL-E 3.</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-lightbulb"></i>
+                            <span><strong>Spesifik dengan Gaya:</strong> Sertakan referensi gaya (misal: "gaya Van Gogh", "ilustrasi anime", "fotorealistik").</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-lightbulb"></i>
+                            <span><strong>Iterasi:</strong> Jangan ragu untuk membuat beberapa variasi dan menyempurnakan prompt berdasarkan hasil.</span>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-lightbulb"></i>
+                            <span><strong>Eksperimen dengan Format:</strong> Coba format prompt yang berbeda untuk hasil yang berbeda.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- External Link -->
+            <div class="external-link">
+                <div class="external-link-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="external-link-content">
+                    <h3>Siap Mengeksplorasi DALL-E 3?</h3>
+                    <p>DALL-E 3 membuka dunia baru kreativitas visual dengan AI. Dengan integrasi ChatGPT dan kemampuan menghasilkan gambar yang menakjubkan, tool ini cocok untuk seniman digital, desainer, content creator, dan siapa saja yang ingin mengeksplorasi batas kreativitas.</p>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <a href="https://chat.openai.com" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-robot"></i> Coba via ChatGPT Plus
+                        </a>
+                        <a href="https://www.bing.com/images/create" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-microsoft"></i> Coba Bing Image Creator
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>AI Hub</h4>
+                    <p>Platform terbaik untuk menemukan dan mengeksplorasi alat kecerdasan buatan terbaru dan terpopuler.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 15px;">
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Tool Terkait</h4>
+                    <ul>
+                        <li><a href="chatgpt.html">ChatGPT</a></li>
+                        <li><a href="midjourney.html">Midjourney</a></li>
+                        <li><a href="copilot.html">GitHub Copilot</a></li>
+                        <li><a href="dalle.html" style="color: var(--primary);">DALL-E 3</a></li>
+                        <li><a href="#">Stable Diffusion</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Kontak</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Bantuan</h4>
+                    <ul>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Hubungi Kami</a></li>
+                        <li><a href="#">Status Layanan</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2026 AI Hub. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart" style="color: var(--accent);"></i> untuk komunitas AI.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // User Session Management
+            const loginBtn = document.getElementById('login-btn');
+            const userProfile = document.getElementById('user-profile');
+            const usernameDisplay = document.getElementById('username-display');
+            const logoutBtn = document.getElementById('logout-btn');
+            const loginNavLink = document.getElementById('login-nav-link');
+
+            // Cek jika user sudah login
+            function checkLoginStatus() {
+                const userData = localStorage.getItem('aiHubUser');
+                
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    loginBtn.style.display = 'none';
+                    userProfile.style.display = 'flex';
+                    usernameDisplay.textContent = user.username;
+                    loginNavLink.textContent = user.username;
+                    loginNavLink.href = '#';
+                } else {
+                    loginBtn.style.display = 'flex';
+                    userProfile.style.display = 'none';
+                    loginNavLink.textContent = 'Login';
+                    loginNavLink.href = 'login.html';
+                }
+            }
+
+            // Logout function
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('aiHubUser');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            // Cek status login saat halaman dimuat
+            checkLoginStatus();
+
+            // Efek hover pada tombol
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Efek hover pada gallery items
+            const galleryItems = document.querySelectorAll('.gallery-item, .feature-item, .access-card');
+            galleryItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Animasi saat scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Terapkan animasi pada elemen
+            const animatedElements = document.querySelectorAll('.feature-item, .gallery-item, .use-case, .access-card');
+            animatedElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(element);
+            });
+            
+            // Smooth scroll untuk anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        if (targetId.startsWith('#') && targetId.length > 1) {
+                            const targetElement = document.querySelector(targetId);
+                            if (targetElement) {
+                                window.scrollTo({
+                                    top: targetElement.offsetTop - 80,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.querySelector('.search-box input');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = this.value.trim().toLowerCase();
+                    if (searchTerm) {
+                        alert(`Pencarian untuk "${searchTerm}" akan dilakukan di halaman utama.`);
+                        window.location.href = 'index.html';
+                    }
+                }
+            });
+            
+            // Highlight current page in nav
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
