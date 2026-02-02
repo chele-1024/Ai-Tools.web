@@ -687,8 +687,8 @@
                     <a href="dalle.html" class="btn btn-primary" style="margin-top: 20px;"><i class="fas fa-bolt"></i> Coba DALL-E 3</a>
                 </div>
                 <div class="featured-image">
-                    <div style="background: linear-gradient(135deg, #8a2be2, #00d4ff); height: 250px; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-image" style="font-size: 6rem; color: white; opacity: 0.8;"></i>
+                    <div style="background-image: url('dall-e.jpg'); background-size: cover; background-position: center; height: 250px; border-radius: 15px;">
+                        <!-- Hapus icon galeri jika tidak diperlukan -->
                     </div>
                 </div>
             </div>
@@ -734,15 +734,55 @@
                 <div class="footer-col">
                     <h4>Berlangganan</h4>
                     <p>Dapatkan update tentang AI tools terbaru langsung ke email Anda.</p>
-                    <div class="search-box" style="margin-top: 15px; width: 100%;">
-                        <input type="text" placeholder="Email Anda">
-                        <button class="btn btn-primary" style="padding: 8px 15px;"><i class="fas fa-paper-plane"></i></button>
-                    </div>
+                    
+                    <!-- GANTI DENGAN FORM INI -->
+                    <form id="subscribeForm" class="search-box" style="margin-top: 15px; width: 100%; display: flex;">
+                        <input type="email" name="email" placeholder="Email Anda" required style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px 0 0 5px;">
+                        <button type="submit" class="btn btn-primary" style="padding: 8px 15px; border-radius: 0 5px 5px 0;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                    
+                    <!-- Tambahkan elemen untuk notifikasi -->
+                    <div id="subscribeMessage" style="margin-top: 10px; display: none; padding: 8px; border-radius: 5px;"></div>
                 </div>
-            </div>
-            
+                <script>
+                    document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+                        e.preventDefault(); // Mencegah reload halaman
+                        
+                        const form = e.target;
+                        const email = form.email.value;
+                        const messageDiv = document.getElementById('subscribeMessage');
+                        
+                        // Tampilkan pesan loading
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.backgroundColor = '#e3f2fd';
+                        messageDiv.style.color = '#0d47a1';
+                        messageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+                        
+                        // Simulasi pengiriman (Ganti dengan kode backend sesungguhnya)
+                        setTimeout(() => {
+                            // SIMULASI SUKSES (Ganti dengan kode AJAX/Fetch ke backend)
+                            messageDiv.style.backgroundColor = '#d4edda';
+                            messageDiv.style.color = '#155724';
+                            messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Terima kasih! Email konfirmasi telah dikirim ke ' + email;
+                            
+                            // Reset form
+                            form.reset();
+                            
+                            // Sembunyikan pesan setelah 5 detik
+                            setTimeout(() => {
+                                messageDiv.style.display = 'none';
+                            }, 5000);
+                            
+                            // LOG untuk debugging (lihat di Console browser)
+                            console.log('Email berlangganan:', email);
+                            
+                        }, 1500); // Delay simulasi
+                    });
+                    </script>  
             <div class="copyright">
-                <p>&copy; 2023 AI Hub. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart" style="color: var(--accent);"></i> untuk komunitas AI.</p>
+                <p>&copy; 2026 AI Hub. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart" style="color: var(--accent);"></i> untuk komunitas AI.</p>
             </div>
         </div>
     </footer>
